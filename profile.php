@@ -1,4 +1,4 @@
-<?php
+<!-- <?php
   session_start();
 
   // Ban users who is not login but try to visit this page
@@ -10,7 +10,7 @@
   }
 
   $_SESSION['randomNumber'] = mt_rand();
-?>
+?> -->
 
 <!DOCTYPE HTML>
 <html>
@@ -34,32 +34,20 @@
     <script src="js/request.js"></script>
     <script src="js/profile.js"></script>
     <script src="js/check.js"></script>
-    <script>
+    <!-- <script>
       r = <?php echo $_SESSION['randomNumber']; ?>;
       <?php // Check if user has JWT but so SESSION ?>
       if (getCookie('JWT') != "" && <?php echo isset($_SESSION['username']) * 1 ?> == 0) check('profile');
-    </script>
-    <script defer>
+    </script> -->
+    <!-- <script defer>
       updateAvatar();
-    </script>
+    </script> -->
   </head>
   
   <body>
 
-    <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
-      <a class="navbar-brand p-0" href="/">
-        <img src="logo.png" alt="Logo" style="width: 50px;">
-        NTNU-Aisu
-      </a>
-      <ul class="navbar-nav">
-        <li class="nav-item active" id="profile-btn">
-          <a class="nav-link" href="/profile.php">個人頁面</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/comment.php?page=1">留言版</a>
-        </li>
-      </ul>
-    </nav>
+    <!-- Title bar -->
+    <?php include($_SERVER['DOCUMENT_ROOT'] . "/component/bar.php");?>
 
     <div class="container-fluid h-100" style="padding-top: 65px;">
 

@@ -1,9 +1,9 @@
 <?php
 
     declare(strict_types=1);
-    $configs = include('config/config.php');
-    include('lib/jwt.php');
-    include('lib/sqlcmd.php');
+    $configs = include($_SERVER['DOCUMENT_ROOT'] . "/api/config/config.php");
+    include($_SERVER['DOCUMENT_ROOT'] . "/api/lib/jwt.php");
+    include($_SERVER['DOCUMENT_ROOT'] . "/api/lib/sqlcmd.php");
 
     function is_invalid(string $argsName) : bool {
         if (!isset($_POST[$argsName]) || $_POST[$argsName] === '') return true;
@@ -37,12 +37,12 @@
         switch($_POST['action']) {
 
             case 'register':
-                if (is_invalid('username') || is_invalid('password')) {
+                if (is_invalid('user_id') || is_invalid('password') || is_invalid('nickname')) {
                     $aResult['error'] = "Missing arguments!";
                 }
-                else if (strlen($_POST['username']) > 30) {
+                else if (strlen($_POST['nickname']) > 30) {
                     if ($configs['debug'])
-                        $aResult['error'] = "Username too long!";
+                        $aResult['error'] = "Nickname is too long!";
                 }
                 else {
                     $db = mysqli_connect($configs['host'],
@@ -57,16 +57,16 @@
                         break;
                     }
 
-                    $sql_result = $db->query(sqlcmd_checkUserExist($_POST['username']));
+                    $sql_result = $db->query(sqlcmd_checkUserExist($_POST['user_id']));
 
                     // Query failed
                     if ($sql_result === FALSE) {
                         header($_SERVER['SERVER_PROTOCOL'] . " 501");
                         $aResult['error'] = $db->error;
                     }
-                    // Username has already been taken
+                    // User ID has already been registered
                     else if ($sql_result->num_rows === 1) {
-                        $aResult['error'] = "Username has been taken!";
+                        $aResult['error'] = "User ID has been registered!";
                     }
                     // Database accident or being attacked
                     else if ($sql_result->num_rows > 1) {
@@ -74,7 +74,7 @@
                         $aResult['error'] = "Unexpected error! (Please report if you are not attacking me)";
                     }
                     else {
-                        $sql_result = $db->query(sqlcmd_addUser($_POST['username'], $_POST['password']));
+                        $sql_result = $db->query(sqlcmd_addUser($_POST['user_id'], $_POST['password'], $_POST['nickname']));
 
                         // Query failed
                         if ($sql_result === FALSE) {
@@ -82,7 +82,7 @@
                             $aResult['error'] = $db->error;
                         }
                         else {
-                            $jwt_result = jwt_create($_POST['username'],
+                            $jwt_result = jwt_create($_POST['user_id'],
                                                      $configs['isser'],
                                                      $configs['exp'],
                                                      $configs['key']);
@@ -91,7 +91,7 @@
                             }
                             else {
                                 header($_SERVER['SERVER_PROTOCOL'] . " 200");
-                                $aResult['result'] = "Register succeed by '$username'.";
+                                $aResult['result'] = "Register succeed by '" . $_POST['user_id'] . "'.";
                             }
                         }
                     }

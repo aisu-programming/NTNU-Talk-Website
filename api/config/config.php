@@ -19,22 +19,21 @@
         'debug' => TRUE,
 
         // Cookies (JWT)
-        'key' => "MyVeryLongAndStrong-512-BitSecretKeyString",
-        'isser' => "aisu.ntnu",
+        'key' => "|\/|y\/ery|_0ngAnd5+r0ng-Sl2-8i+5ecre+|<ey5+ring",
+        'isser' => "NTNU talk",
         'exp' => 7200,      // 2 hours
 
         // Programming
-        // 'referer' => "http://172.30.36.160/",
-        // 'referer' => "http://localhost/",
-        'referer' => "http://ntnu-40747026s-aisu.us-east-1.elasticbeanstalk.com/",
+        // 'referer' =>"http://114.24.94.76:9487/",
+        'referer' => "http://localhost/",
         
         // Database
         // 'host' => 'localhost',
         // 'username' => 'root',
-        'host' => "aafmmy0ddnwvx0.caqxcgcpxy7z.us-east-1.rds.amazonaws.com",
-        'username' => 'aisu',
-        'password' => 'hung170232',
-        'dbname' => 'ebdb',
+        'host' => "140.122.184.132",
+        'username' => 'team10',
+        'password' => 'DBehZktaWHEvdlY',
+        'dbname' => 'team10',
     );
 
 ?>

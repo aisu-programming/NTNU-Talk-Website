@@ -1,9 +1,9 @@
-<?php
-  session_start();
+<?php include($_SERVER['DOCUMENT_ROOT'] . '/cookie.php');
 
-  if (!isset($_COOKIE['JWT'])) unset($_SESSION['username']);
+  check_cookie("index");
 
   $_SESSION['randomNumber'] = mt_rand();
+
 ?>
 
 <!DOCTYPE HTML>
@@ -23,43 +23,16 @@
     <script src="js/check.js"></script>
     <script>
       r = <?php echo $_SESSION['randomNumber']; ?>;
-      if (getCookie('JWT') != "" && <?php echo isset($_SESSION['username']) * 1 ?> == 0) check('index');
-      updateTotalLoginTurn();
     </script>
   </head>
 
   <body>
     <div class="container-fluid h-100">
 
-      <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
-        <a class="navbar-brand p-0" href="/">
-          <img src="logo.png" alt="Logo" style="width: 50px;">
-          NTNU-Aisu
-        </a>
-        <ul class="navbar-nav">
-
-          <?php if (isset($_SESSION['username']) && isset($_COOKIE['JWT'])) { ?>
-            <li class="nav-item">
-              <a class="nav-link" href="/profile.php">個人頁面</a>
-            </li>
-          <?php } ?>
-
-          <li class="nav-item">
-            <a class="nav-link" href="/comment.php?page=1">留言版</a>
-          </li>
-
-          <?php // Not having both SESSION and JWT ?>
-          <?php if (!isset($_SESSION['username']) || !isset($_COOKIE['JWT'])) { ?>
-            <li class="nav-item">
-              <a class="nav-link" href="/login.php">登入</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/register.php">註冊</a>
-            </li>
-          <?php } ?>
-
-        </ul>
-      </nav>
+      <!-- Title bar -->
+      <?php include($_SERVER['DOCUMENT_ROOT'] . "/component/bar.php");
+        display_title_bar("index");
+      ?>
 
       <div class="row justify-content-start align-content-center h-100" style="padding-top: 65px;">
         <div class="col-6 col-md-5">

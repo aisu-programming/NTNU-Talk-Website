@@ -34,20 +34,8 @@
   <body>
     <div class="container-fluid h-100">
 
-      <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
-        <a class="navbar-brand p-0" href="/">
-          <img src="logo.png" alt="Logo" style="width: 50px;">
-          NTNU-Aisu
-        </a>
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link" href="/profile.php">個人頁面</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/comment.php?page=1">留言版</a>
-          </li>
-        </ul>
-      </nav>
+      <!-- Title bar -->
+      <?php include($_SERVER['DOCUMENT_ROOT'] . "/component/bar.php");?>
 
       <div class="row justify-content-center align-content-center h-100" style="padding-top: 65px;">
         <div class="col-12 col-md-10" align="center">

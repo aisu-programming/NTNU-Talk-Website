@@ -1,11 +1,12 @@
 function register() {
         
-    var username = document.getElementById("username").value;
+    var user_id = document.getElementById("user_id").value;
     var password = document.getElementById("password").value;
     var pwdcheck = document.getElementById("pwdcheck").value;
+    var nickname = document.getElementById("nickname").value;
 
-    if (username.length > 30) {
-        alert("The length of username should be 30 at most!");
+    if (user_id.length != 9) {
+        alert("The length of User ID should be 9!");
         return;
     }
 
@@ -16,11 +17,12 @@ function register() {
 
     post('api/register.php', {
         action: 'register',
-        username: username,
+        user_id: user_id,
         password: password,
+        nickname: nickname,
         r: r
     }, function (response) {
-        alert('Register succeed!')
+        alert('Register succeed!');
         check('register');
     });
 }

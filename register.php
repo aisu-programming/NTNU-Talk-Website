@@ -1,15 +1,6 @@
 <?php
-  session_start();
-
-  // Ban users who was already login but try to visit this page
-  if (isset($_SESSION['username']) && isset($_COOKIE['JWT'])) {
-    header("Location: profile.php");
-    exit;
-  }
-  else if (isset($_SESSION['username']) && !isset($_COOKIE['JWT'])) {
-    unset($_SESSION['username']);
-  }
-
+  include($_SERVER['DOCUMENT_ROOT'] . "/cookie.php");
+  check_cookie("register");
   $_SESSION['randomNumber'] = mt_rand();
 ?>
 
@@ -38,23 +29,10 @@
   <body>
     <div class="container-fluid h-100">
 
-      <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
-        <a class="navbar-brand p-0" href="/">
-          <img src="logo.png" alt="Logo" style="width: 50px;">
-          NTNU-Aisu
-        </a>
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link" href="/comment.php?page=1">留言版</a>
-          </li>
-          <li class="nav-item" id="login-btn" style="display: inherit;">
-            <a class="nav-link" href="/login.php">登入</a>
-          </li>
-          <li class="nav-item active" id="register-btn" style="display: inherit;">
-            <a class="nav-link" href="/register.php">註冊</a>
-          </li>
-        </ul>
-      </nav>
+      <!-- Title bar -->
+      <?php include($_SERVER['DOCUMENT_ROOT'] . "/component/bar.php");
+        display_title_bar("register");
+      ?>
 
       <div class="row justify-content-center align-content-center h-100" style="padding-top: 65px;">
         <div class="col-12 col-md-10" align="center">
@@ -62,8 +40,8 @@
             <div class="card-header">使用者註冊</div>
             <div class="card-body">
               <div class="form-group text-left">
-                <label for="username">設定帳號：<br>（限制長度：30 個英文字母 / 10 個中文字）</label>
-                <input type="text" class="form-control" maxlength="30" id="username">
+                <label for="user_id">設定帳號：<br>（請使用學號註冊）</label>
+                <input type="text" class="form-control" maxlength="30" id="user_id">
               </div>
               <div class="form-group text-left">
                 <label for="password">設定密碼：</label>
@@ -72,6 +50,10 @@
               <div class="form-group text-left">
                 <label for="pwdcheck">確認密碼：</label>
                 <input type="password" class="form-control" id="pwdcheck">
+              </div>
+              <div class="form-group text-left">
+                <label for="nickname">設定暱稱：<br>（中文 10 字以內，英文 30 字以內）</label>
+                <input type="text" class="form-control" maxlength="30" id="nickname">
               </div>
               <div class="row-fluid">
                 <div class="col-fluid text-right">

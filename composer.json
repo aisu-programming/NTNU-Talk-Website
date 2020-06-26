@@ -1,5 +1,5 @@
 {
     "require": {
-        "firebase/php-jwt": "dev-master"
+        "firebase/php-jwt": "^5.2"
     }
 }

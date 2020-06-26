@@ -1,18 +1,5 @@
 <?php
 
-    // Fake 404 website, but can be recognize by 'X-Powered-By' in Response Header
-    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-        header($_SERVER["SERVER_PROTOCOL"] . " 404");
-        echo '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
-<html><head>
-<title>404 Not Found</title>
-</head><body>
-<h1>Not Found</h1>
-<p>The requested URL was not found on this server.</p>
-</body></html>';
-        exit;
-    }
-
     function stringEncode(string $input) : string {
         return base64_encode($input);
     }
@@ -57,21 +44,19 @@
                 )";
     }
 
-    function sqlcmd_checkUserExist(string $username) : string {
+    function sqlcmd_checkUserExist(string $user_id) : string {
 
-        $encode_username = stringEncode($username);
-
-        return "SELECT username FROM user 
-                WHERE username = '$encode_username'";
+        return "SELECT user_id FROM user 
+                WHERE user_id = '$user_id'";
     }
     
-    function sqlcmd_addUser(string $username, string $password) : string {
+    function sqlcmd_addUser(string $user_id, string $password, string $nickname) : string {
 
-        $encode_username = stringEncode($username);
         $sha512_pwd = hash('sha512', $password);
+        $encode_nickname = stringEncode($nickname);
 
-        return "INSERT INTO user (username, password) 
-                VALUES ('$encode_username', '$sha512_pwd')";
+        return "INSERT INTO user (user_id, password, nickname) 
+                VALUES ('$user_id', '$sha512_pwd', '$encode_nickname')";
     }
     
     function sqlcmd_getUser(string $username, string $password) : string {
