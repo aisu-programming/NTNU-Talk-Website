@@ -53,7 +53,7 @@
                     // Database connect failed
                     if (!$db) {
                         header($_SERVER['SERVER_PROTOCOL'] . " 501");
-                        $aResult['error'] = "Connect Error ($db->connect_errno) $db->connect_error";
+                        $aResult['error'] = "Connect Errno: " . mysqli_connect_errno();
                         break;
                     }
 

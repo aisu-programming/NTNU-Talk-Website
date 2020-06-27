@@ -49,7 +49,7 @@
             <div class="card-header">使用者登入</div>
             <div class="card-body">
               <div class="form-group text-left">
-                <label for="user_id">帳號：</label>
+                <label for="user_id">學號：</label>
                 <input type="text" class="form-control" maxlength="30" id="user_id">
               </div>
               <div class="form-group text-left">
