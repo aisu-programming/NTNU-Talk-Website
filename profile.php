@@ -118,44 +118,45 @@
 
         <div class="row justify-content-center align-content-start h-50">
 
-        <?php if ($_GET['user_id'] === $_SESSION['user_id']) { ?>
+          <?php if ($_GET['user_id'] === $_SESSION['user_id']) { ?>
 
-          <div class="col-12 p-2 pt-4" align="center">
-            <h4 class="m-0">點此上傳新頭像</h4>
-          </div>
-          <div class="col-12 p-2" align="center">
-            <input type="file" class="form-control-file border" style="max-width: 300px;" accept="image/*" id="upload-image">
-          </div>
-          <div class="col-12 p-2" align="center">
-            <button onclick="uploadImage()" class="btn btn-primary" id="upload-btn">
-              <span class="spinner-border spinner-border-sm" style="display: none;" id="upload-spinner"></span>
-              <a id="upload-text">上傳</a>
-            </button>
-          </div>
-
-        <?php } else { ?>
-          <?php if ($followed === FALSE) { ?>
-
-            <!-- 未關注，可關注 -->
+            <div class="col-12 p-2 pt-4" align="center">
+              <h4 class="m-0">點此上傳新頭像</h4>
+            </div>
             <div class="col-12 p-2" align="center">
-              <button onclick="follow('<?php echo $_GET['user_id']; ?>')" class="btn btn-primary" id="follow-btn">
-                <a id="follow-text"><i class="fas fa-user-plus"></i> 關注</a>
+              <input type="file" class="form-control-file border" style="max-width: 300px;" accept="image/*" id="upload-image">
+            </div>
+            <div class="col-12 p-2" align="center">
+              <button onclick="uploadImage()" class="btn btn-primary" id="upload-btn">
+                <span class="spinner-border spinner-border-sm" style="display: none;" id="upload-spinner"></span>
+                <a id="upload-text">上傳</a>
               </button>
             </div>
 
           <?php } else { ?>
+            <?php if ($followed === FALSE) { ?>
 
-            <!-- 已關注，可取消關注 -->
-            <div class="col-12 p-2" align="center">
-              <button onclick="cancelFollow('<?php echo $_GET['user_id']; ?>')" class="btn btn-primary" id="follow-btn">
-                <a id="follow-text"><i class="fas fa-user-times"></i> 取消關注</a>
-              </button>
-            </div>
-          
+              <!-- 未關注，可關注 -->
+              <div class="col-12 p-2" align="center">
+                <button onclick="follow('<?php echo $_GET['user_id']; ?>')" class="btn btn-primary" id="follow-btn">
+                  <a id="follow-text"><i class="fas fa-user-plus"></i> 關注</a>
+                </button>
+              </div>
+
+            <?php } else { ?>
+
+              <!-- 已關注，可取消關注 -->
+
+              <div class="col-12 p-2" align="center">
+                <button onclick="cancelFollow('<?php echo $_GET['user_id']; ?>')" class="btn btn-primary" id="follow-btn">
+                  <a id="follow-text"><i class="fas fa-user-times"></i> 取消關注</a>
+                </button>
+              </div>
+
+            <?php } ?>
           <?php } ?>
         <?php } ?>
-      <?php } ?>
-
+           
       </div>
 
     </div>
