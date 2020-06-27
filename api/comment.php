@@ -100,11 +100,11 @@
                             if ($counter == 11) break;
 
                             if ($row['alive']) {
-                                if ($_SESSION['user_id'] == stringDecode($row['user_id'])) $editable = true;
+                                if ($_SESSION['user_id'] == $row['user_id']) $editable = true;
                                 else $editable = false;
                                 $comment = array('id'=>$row['id'], 
-                                                 'avatar'=>$row['avatar'],
-                                                 'user_id'=>stringDecode($row['user_id']), 
+                                                 // 'avatar'=>$row['avatar'],
+                                                 'user_id'=>$row['user_id'], 
                                                  'title'=>stringDecode($row['title']), 
                                                  'content'=>stringDecode($row['content']), 
                                                  'editable'=>$editable);
@@ -173,7 +173,7 @@
                         $aResult['error'] = "Unexpected error! (Please report if you are not attacking me)";
                     }
                     // Authority check
-                    else if ($_SESSION['user_id'] != stringDecode($sql_result->fetch_assoc()['user_id'])) {
+                    else if ($_SESSION['user_id'] != $sql_result->fetch_assoc()['user_id']) {
                         header($_SERVER['SERVER_PROTOCOL'] . " 403");
                         if ($configs['debug'])
                             $aResult['error'] = "Unauthorized action!";
