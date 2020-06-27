@@ -1,15 +1,6 @@
 <?php
-  session_start();
-
-  // Ban users who was already login but try to visit this page
-  if (isset($_SESSION['user_id']) && isset($_COOKIE['JWT'])) {
-    header("Location: profile.php");
-    exit;
-  }
-  else if (isset($_SESSION['user_id']) && !isset($_COOKIE['JWT'])) {
-    unset($_SESSION['user_id']);
-  }
-
+  include($_SERVER['DOCUMENT_ROOT'] . '/cookie.php');
+  check_cookie("login");
   $_SESSION['randomNumber'] = mt_rand();
 ?>
 
@@ -27,11 +18,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script src="js/request.js"></script>
     <script src="js/login.js"></script>
-    <script src="js/check.js"></script>
     <script>
       r = <?php echo $_SESSION['randomNumber']; ?>;
-      <?php // Check and set SESSION if user has JWT ?>
-      if (getCookie('JWT') != "") check('login');
     </script>
   </head>
   

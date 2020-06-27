@@ -12,7 +12,7 @@ function get(url, data)
 
         error: function (xhr) {
           var response = xhr.responseJSON;
-          if (error in response) alert(response.error);
+          if ('error' in response) alert(response['error']);
         }
       });
 }
@@ -24,7 +24,7 @@ function post(
     if (result in response) alert(response.result);
   },
   errorFunction = function (response) {
-    if (error in response) alert(response.error);
+    if ('error' in response) alert(response['error']);
   })
 {
     $.ajax({

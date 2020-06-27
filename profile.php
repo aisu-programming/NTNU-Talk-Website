@@ -87,11 +87,8 @@
     <script src="https://kit.fontawesome.com/19bb405b06.js"></script>
     <script src="js/request.js"></script>
     <script src="js/profile.js"></script>
-    <script src="js/check.js"></script>
     <script>
       r = <?php echo $_SESSION['randomNumber']; ?>;
-      <?php // Check if user has JWT but so SESSION ?>
-      // if (getCookie('JWT') != "" && <?php echo isset($_SESSION['user_id']) * 1 ?> == 0) check('profile');
     </script>
   </head>
   
