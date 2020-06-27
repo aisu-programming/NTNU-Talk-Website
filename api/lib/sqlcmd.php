@@ -35,12 +35,17 @@
 
     function sqlcmd_createUserTable() : string {
         return "CREATE TABLE user (
-                    id INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY, 
-                    user_id VARCHAR(40) NOT NULL UNIQUE,
-                    password VARCHAR(128) NOT NULL,
-                    reg_date TIMESTAMP, -- NOT NULL,
-                    avatar VARCHAR(40) NOT NULL DEFAULT 'https://i.imgur.com/9B9e2OY.png',
-                    login_turn INT(8) UNSIGNED NOT NULL DEFAULT 0
+                  serial_no int unsigned NOT NULL AUTO_INCREMENT,
+                  user_id char(9) NOT NULL,
+                  password varchar(128) NOT NULL,
+                  real_name varchar(30) DEFAULT NULL,
+                  nickname varchar(50) NOT NULL,
+                  gender int DEFAULT NULL,
+                  signup_time timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                  avatar varchar(31) NOT NULL DEFAULT 'https://i.imgur.com/57UTYCI.png',
+                  PRIMARY KEY (serial_no),
+                  UNIQUE KEY serial_no_UNIQUE (serial_no),
+                  UNIQUE KEY id_UNIQUE (user_id)
                 )";
     }
 
@@ -69,33 +74,25 @@
 
     function sqlcmd_addUserLoginTurn(string $user_id) : string {
 
-        $encode_user_id = stringEncode($user_id);
-
         return "UPDATE user SET login_turn = login_turn + 1 
-                WHERE user_id = '$encode_user_id'";
+                WHERE user_id = '$user_id'";
     }
 
     function sqlcmd_getUserLoginTurn(string $user_id) : string {
 
-        $encode_user_id = stringEncode($user_id);
-
-        return "SELECT login_turn FROM user WHERE user_id = '$encode_user_id'";
+        return "SELECT login_turn FROM user WHERE user_id = '$user_id'";
     }
     
     function sqlcmd_getAvatar(string $user_id) {
 
-        $encode_user_id = stringEncode($user_id);
-
         return "SELECT avatar FROM user 
-                WHERE user_id = '$encode_user_id'";
+                WHERE user_id = '$user_id'";
     }
     
     function sqlcmd_updateAvatar(string $user_id, string $link) : string {
 
-        $encode_user_id = stringEncode($user_id);
-
         return "UPDATE user SET avatar = '$link' 
-                WHERE user_id = '$encode_user_id'";
+                WHERE user_id = '$user_id'";
     }
 
     // ------------------------------ ↓ Comments ↓ ------------------------------ //
@@ -130,13 +127,12 @@
     }
 
     function sqlcmd_addComment(string $user_id, string $title, string $content) : string {
-
-        $encode_user_id = stringEncode($user_id);
+        
         $encode_title = stringEncode($title);
         $encode_content = stringEncode($content);
 
         return "INSERT INTO comment (user_id, title, content) 
-                VALUES ('$encode_user_id', '$encode_title', '$encode_content')";
+                VALUES ('$user_id', '$encode_title', '$encode_content')";
     }
     
 ?>
