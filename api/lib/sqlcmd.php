@@ -128,6 +128,7 @@
                         WHEN (a_id = '$user_id' AND b_id = '$target_id' AND status = 2) THEN 3
                         WHEN (a_id = '$target_id' AND b_id = '$user_id' AND status = 0) THEN 2
                         WHEN (a_id = '$target_id' AND b_id = '$user_id' AND status = 1) THEN 3
+                        ELSE status
                     END
                 ) 
                 WHERE (a_id = '$user_id' AND b_id = '$target_id')
@@ -141,6 +142,7 @@
                 WHEN (a_id = '$user_id' AND b_id = '$target_id' AND status = 3) THEN 2
                 WHEN (a_id = '$target_id' AND b_id = '$user_id' AND status = 2) THEN 0
                 WHEN (a_id = '$target_id' AND b_id = '$user_id' AND status = 3) THEN 1
+                ELSE status
             END
         ) 
         WHERE (a_id = '$user_id' AND b_id = '$target_id')

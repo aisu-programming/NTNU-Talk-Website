@@ -46,9 +46,9 @@
       else if ($sql_result->num_rows !== 1) $followed = FALSE;
       else {
         $row = $sql_result->fetch_assoc();
-        if ($row['status'] === 3) $followed = TRUE;
-        else if ($row['a_id'] === $_SESSION['user_id'] && $row['status'] === 1) $followed = TRUE;
-        else if ($row['b_id'] === $_SESSION['user_id'] && $row['status'] === 2) $followed = TRUE;
+        if ($row['status'] == 3) $followed = TRUE;
+        else if ($row['a_id'] === $_SESSION['user_id'] && $row['status'] == 1) $followed = TRUE;
+        else if ($row['b_id'] === $_SESSION['user_id'] && $row['status'] == 2) $followed = TRUE;
         else $followed = FALSE;
       }
     }
@@ -93,9 +93,6 @@
       <?php // Check if user has JWT but so SESSION ?>
       // if (getCookie('JWT') != "" && <?php echo isset($_SESSION['user_id']) * 1 ?> == 0) check('profile');
     </script>
-    <!-- <script defer>
-      updateAvatar();
-    </script> -->
   </head>
   
   <body>
@@ -113,11 +110,13 @@
         <div class="row head-spacer" style="height: 72px;"></div>
       <?php } ?>
 
-      <div class="row justify-content-center align-content-end h-50">
-        <img class="img-thumbnail" style="background: #cccccc; width: 250px; height: 250px;" alt="Avatar" id="avatar" src="<?php echo htmlentities($avatar, ENT_NOQUOTES); ?>">
-      </div>
+      <?php if ($nickname !== FALSE) { ?>
 
-      <div class="row justify-content-center align-content-start h-50">
+        <div class="row justify-content-center align-content-end h-50">
+          <img class="img-thumbnail" style="background: #cccccc; width: 250px; height: 250px;" alt="Avatar" id="avatar" src="<?php echo htmlentities($avatar, ENT_NOQUOTES); ?>">
+        </div>
+
+        <div class="row justify-content-center align-content-start h-50">
 
         <?php if ($_GET['user_id'] === $_SESSION['user_id']) { ?>
 
@@ -144,9 +143,9 @@
               </button>
             </div>
 
-          <!-- 已關注，可取消關注 -->
-          <?php } else if ($followed === TRUE) { ?>
+          <?php } else { ?>
 
+            <!-- 已關注，可取消關注 -->
             <div class="col-12 p-2" align="center">
               <button onclick="cancelFollow('<?php echo $_GET['user_id']; ?>')" class="btn btn-primary" id="follow-btn">
                 <a id="follow-text"><i class="fas fa-user-times"></i> 取消關注</a>
@@ -155,7 +154,8 @@
           
           <?php } ?>
         <?php } ?>
-        
+      <?php } ?>
+
       </div>
 
     </div>
