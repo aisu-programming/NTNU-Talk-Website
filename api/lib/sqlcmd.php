@@ -83,9 +83,10 @@
         return "SELECT login_turn FROM user WHERE user_id = '$user_id'";
     }
     
-    function sqlcmd_getAvatar(string $user_id) {
+    // Not finished
+    function sqlcmd_getProfile(string $user_id) {
 
-        return "SELECT avatar FROM user 
+        return "SELECT nickname, avatar FROM user 
                 WHERE user_id = '$user_id'";
     }
     
@@ -93,6 +94,59 @@
 
         return "UPDATE user SET avatar = '$link' 
                 WHERE user_id = '$user_id'";
+    }
+
+    // ------------------------------ ↓ Relations ↓ ------------------------------ //
+
+    function sqlcmd_createRelationTable() : string {
+        return "CREATE TABLE relation (
+                    relation_id int unsigned NOT NULL AUTO_INCREMENT,
+                    status int unsigned NOT NULL DEFAULT '0',
+                    a_id varchar(9) NOT NULL,
+                    b_id varchar(9) NOT NULL,
+                    PRIMARY KEY (relation_id),
+                    UNIQUE KEY relation_id_UNIQUE (relation_id),
+                    KEY user_idx (a_id,b_id)
+                )";
+    }
+    
+    function sqlcmd_checkRelation(string $user_id, string $target_id) : string {
+        return "SELECT * FROM relation
+                WHERE (a_id = '$user_id' AND b_id = '$target_id')
+                OR (a_id = '$target_id' AND b_id = '$user_id')";
+    }
+
+    function sqlcmd_createRelationAndFollow(string $user_id, string $target_id) : string {
+        return "INSERT INTO relation (status, a_id, b_id) 
+                VALUES (1, '$user_id', '$target_id')";
+    }
+
+    function sqlcmd_follow(string $user_id, string $target_id) : string {
+        return "UPDATE relation SET status = (
+                    CASE
+                        WHEN (a_id = '$user_id' AND b_id = '$target_id' AND status = 0) THEN 1
+                        WHEN (a_id = '$user_id' AND b_id = '$target_id' AND status = 2) THEN 3
+                        WHEN (a_id = '$target_id' AND b_id = '$user_id' AND status = 0) THEN 2
+                        WHEN (a_id = '$target_id' AND b_id = '$user_id' AND status = 1) THEN 3
+                        ELSE status
+                    END
+                ) 
+                WHERE (a_id = '$user_id' AND b_id = '$target_id')
+                OR (a_id = '$target_id' AND b_id = '$user_id')";
+    }
+
+    function sqlcmd_cancelFollow(string $user_id, string $target_id) : string {
+        return "UPDATE relation SET status = (
+            CASE
+                WHEN (a_id = '$user_id' AND b_id = '$target_id' AND status = 1) THEN 0
+                WHEN (a_id = '$user_id' AND b_id = '$target_id' AND status = 3) THEN 2
+                WHEN (a_id = '$target_id' AND b_id = '$user_id' AND status = 2) THEN 0
+                WHEN (a_id = '$target_id' AND b_id = '$user_id' AND status = 3) THEN 1
+                ELSE status
+            END
+        ) 
+        WHERE (a_id = '$user_id' AND b_id = '$target_id')
+        OR (a_id = '$target_id' AND b_id = '$user_id')";
     }
 
     // ------------------------------ ↓ Comments ↓ ------------------------------ //
@@ -127,7 +181,7 @@
     }
 
     function sqlcmd_addComment(string $user_id, string $title, string $content) : string {
-        
+
         $encode_title = stringEncode($title);
         $encode_content = stringEncode($content);
 

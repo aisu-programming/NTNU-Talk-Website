@@ -31,8 +31,8 @@
     <script src="js/check.js"></script>
     <script>
       r = <?php echo $_SESSION['randomNumber']; ?>;
-      if (getCookie('JWT') != "" && <?php echo isset($_SESSION['user_id']) * 1 ?> == 0) check('comment');
-      // getComments(<?php echo (int) trim($_GET['page']) ?>);
+      // if (getCookie('JWT') != "" && <?php echo isset($_SESSION['user_id']) * 1 ?> == 0) check('comment');
+      getComments(<?php echo (int) trim($_GET['page']) ?>);
     </script>
   </head>
 
