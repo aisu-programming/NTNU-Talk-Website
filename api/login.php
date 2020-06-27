@@ -37,7 +37,7 @@
         switch($_POST['action']) {
 
             case 'login':
-                if (is_invalid('username') || is_invalid('password')) {
+                if (is_invalid('user_id') || is_invalid('password')) {
                     $aResult['error'] = "Missing arguments!";
                 }
                 else {
@@ -53,7 +53,7 @@
                         break;
                     }
 
-                    $sql_result = $db->query(sqlcmd_getUser($_POST['username'], $_POST['password']));
+                    $sql_result = $db->query(sqlcmd_getUser($_POST['user_id'], $_POST['password']));
 
                     // Query failed
                     if ($sql_result === FALSE) {
@@ -70,7 +70,7 @@
                         $aResult['error'] = "Unexpected error! (Please report if you are not attacking me)";
                     }
                     else {
-                        $jwt_result = jwt_create($_POST['username'],
+                        $jwt_result = jwt_create($_POST['user_id'],
                                                  $configs['isser'],
                                                  $configs['exp'],
                                                  $configs['key']);
@@ -79,7 +79,7 @@
                         }
                         else {
                             header($_SERVER['SERVER_PROTOCOL'] . " 200");
-                            $aResult['result'] = "Login succeed with '" . $_POST['username'] . "'.";
+                            $aResult['result'] = "Login succeed with '" . $_POST['user_id'] . "'.";
                         }
                     }
                     

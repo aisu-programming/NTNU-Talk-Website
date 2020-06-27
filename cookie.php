@@ -12,13 +12,13 @@
         if (in_array($page, $pages_not_login))
         {
             // Ban users who was already login but try to visit this page
-            if (isset($_SESSION['username']) && isset($_COOKIE['JWT']))
+            if (isset($_SESSION['user_id']) && isset($_COOKIE['JWT']))
             {
                 header("Location: profile.php");
                 exit;
             }
             // Bug
-            else if (isset($_SESSION['username']) && !isset($_COOKIE['JWT'])) unset($_SESSION['username']);
+            else if (isset($_SESSION['user_id']) && !isset($_COOKIE['JWT'])) unset($_SESSION['user_id']);
         }
         else if (in_array($page, $pages_no_matter))
         {
@@ -31,7 +31,7 @@
                 header("Location: login.php");
                 exit;
             }
-            else if (!isset($_SESSION['username']))
+            else if (!isset($_SESSION['user_id']))
             {
                 echo "<script>console.log(". jwt_decode() .");</script>";
             }

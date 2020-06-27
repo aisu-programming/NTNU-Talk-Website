@@ -1,7 +1,7 @@
 <?php
   session_start();
 
-  if (!isset($_COOKIE['JWT'])) unset($_SESSION['username']);
+  if (!isset($_COOKIE['JWT'])) unset($_SESSION['user_id']);
 
   $_SESSION['randomNumber'] = mt_rand();
 ?>
@@ -31,7 +31,7 @@
     <script src="js/check.js"></script>
     <script>
       r = <?php echo $_SESSION['randomNumber']; ?>;
-      if (getCookie('JWT') != "" && <?php echo isset($_SESSION['username']) * 1 ?> == 0) check('comment');
+      if (getCookie('JWT') != "" && <?php echo isset($_SESSION['user_id']) * 1 ?> == 0) check('comment');
       // getComments(<?php echo (int) trim($_GET['page']) ?>);
     </script>
   </head>
@@ -73,7 +73,7 @@
 
     <div class="container-fluid" style="padding-top: 65px; padding-bottom: 54px">
 
-      <?php if (isset($_SESSION['username'])) { ?>
+      <?php if (isset($_SESSION['user_id'])) { ?>
         <div class="row head-spacer" style="height: 32px;"></div>
       <?php } else { ?>
         <div class="row head-spacer" style="height: 72px;"></div>

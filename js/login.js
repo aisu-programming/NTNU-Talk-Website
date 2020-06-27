@@ -1,11 +1,11 @@
 function login() {
         
-    var username = document.getElementById("username").value;
+    var user_id = document.getElementById("user_id").value;
     var password = document.getElementById("password").value;
 
     post('api/login.php', {
         action: 'login',
-        username: username,
+        user_id: user_id,
         password: password,
         r: r
     }, function (response) {

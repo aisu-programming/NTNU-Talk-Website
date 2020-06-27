@@ -35,12 +35,17 @@
 
     function sqlcmd_createUserTable() : string {
         return "CREATE TABLE user (
-                    id INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY, 
-                    username VARCHAR(40) NOT NULL UNIQUE,
-                    password VARCHAR(128) NOT NULL,
-                    reg_date TIMESTAMP, -- NOT NULL,
-                    avatar VARCHAR(40) NOT NULL DEFAULT 'https://i.imgur.com/9B9e2OY.png',
-                    login_turn INT(8) UNSIGNED NOT NULL DEFAULT 0
+                  serial_no int unsigned NOT NULL AUTO_INCREMENT,
+                  user_id char(9) NOT NULL,
+                  password varchar(128) NOT NULL,
+                  real_name varchar(30) DEFAULT NULL,
+                  nickname varchar(50) NOT NULL,
+                  gender int DEFAULT NULL,
+                  signup_time timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                  avatar varchar(31) NOT NULL DEFAULT 'https://i.imgur.com/57UTYCI.png',
+                  PRIMARY KEY (serial_no),
+                  UNIQUE KEY serial_no_UNIQUE (serial_no),
+                  UNIQUE KEY id_UNIQUE (user_id)
                 )";
     }
 
@@ -59,44 +64,35 @@
                 VALUES ('$user_id', '$sha512_pwd', '$encode_nickname')";
     }
     
-    function sqlcmd_getUser(string $username, string $password) : string {
+    function sqlcmd_getUser(string $user_id, string $password) : string {
 
-        $encode_username = stringEncode($username);
         $sha512_pwd = hash('sha512', $password);
 
-        return "SELECT username FROM user 
-                WHERE username = '$encode_username' && password = '$sha512_pwd'";
+        return "SELECT user_id FROM user 
+                WHERE user_id = '$user_id' && password = '$sha512_pwd'";
     }
 
-    function sqlcmd_addUserLoginTurn(string $username) : string {
-
-        $encode_username = stringEncode($username);
+    function sqlcmd_addUserLoginTurn(string $user_id) : string {
 
         return "UPDATE user SET login_turn = login_turn + 1 
-                WHERE username = '$encode_username'";
+                WHERE user_id = '$user_id'";
     }
 
-    function sqlcmd_getUserLoginTurn(string $username) : string {
+    function sqlcmd_getUserLoginTurn(string $user_id) : string {
 
-        $encode_username = stringEncode($username);
-
-        return "SELECT login_turn FROM user WHERE username = '$encode_username'";
+        return "SELECT login_turn FROM user WHERE user_id = '$user_id'";
     }
     
-    function sqlcmd_getAvatar(string $username) {
-
-        $encode_username = stringEncode($username);
+    function sqlcmd_getAvatar(string $user_id) {
 
         return "SELECT avatar FROM user 
-                WHERE username = '$encode_username'";
+                WHERE user_id = '$user_id'";
     }
     
-    function sqlcmd_updateAvatar(string $username, string $link) : string {
-
-        $encode_username = stringEncode($username);
+    function sqlcmd_updateAvatar(string $user_id, string $link) : string {
 
         return "UPDATE user SET avatar = '$link' 
-                WHERE username = '$encode_username'";
+                WHERE user_id = '$user_id'";
     }
 
     // ------------------------------ ↓ Comments ↓ ------------------------------ //
@@ -104,7 +100,7 @@
     function sqlcmd_createCommentTable() : string {
         return "CREATE TABLE comment (
                     id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY, 
-                    username VARCHAR(40) NOT NULL,
+                    user_id VARCHAR(40) NOT NULL,
                     date TIMESTAMP, -- NOT NULL,
                     alive BOOLEAN NOT NULL DEFAULT TRUE,
                     title VARCHAR(40) NOT NULL,
@@ -118,11 +114,11 @@
         $first_item = $last_item - 10;
 
         return "SELECT comment.*, user.avatar FROM comment, user 
-                WHERE comment.id >= $first_item AND comment.id <= $last_item AND comment.username=user.username";
+                WHERE comment.id >= $first_item AND comment.id <= $last_item AND comment.user_id=user.user_id";
     }
 
     function sqlcmd_getCommentById(int $id) : string {
-        return "SELECT username FROM comment WHERE comment.id = $id";
+        return "SELECT user_id FROM comment WHERE comment.id = $id";
     }
 
     function sqlcmd_deleteComment(int $id) : string {
@@ -130,14 +126,13 @@
                 WHERE id = $id";
     }
 
-    function sqlcmd_addComment(string $username, string $title, string $content) : string {
-
-        $encode_username = stringEncode($username);
+    function sqlcmd_addComment(string $user_id, string $title, string $content) : string {
+        
         $encode_title = stringEncode($title);
         $encode_content = stringEncode($content);
 
-        return "INSERT INTO comment (username, title, content) 
-                VALUES ('$encode_username', '$encode_title', '$encode_content')";
+        return "INSERT INTO comment (user_id, title, content) 
+                VALUES ('$user_id', '$encode_title', '$encode_content')";
     }
     
 ?>

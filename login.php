@@ -2,12 +2,12 @@
   session_start();
 
   // Ban users who was already login but try to visit this page
-  if (isset($_SESSION['username']) && isset($_COOKIE['JWT'])) {
+  if (isset($_SESSION['user_id']) && isset($_COOKIE['JWT'])) {
     header("Location: profile.php");
     exit;
   }
-  else if (isset($_SESSION['username']) && !isset($_COOKIE['JWT'])) {
-    unset($_SESSION['username']);
+  else if (isset($_SESSION['user_id']) && !isset($_COOKIE['JWT'])) {
+    unset($_SESSION['user_id']);
   }
 
   $_SESSION['randomNumber'] = mt_rand();
@@ -49,8 +49,8 @@
             <div class="card-header">使用者登入</div>
             <div class="card-body">
               <div class="form-group text-left">
-                <label for="username">帳號：</label>
-                <input type="text" class="form-control" maxlength="30" id="username">
+                <label for="user_id">帳號：</label>
+                <input type="text" class="form-control" maxlength="30" id="user_id">
               </div>
               <div class="form-group text-left">
                 <label for="password">密碼：</label>
