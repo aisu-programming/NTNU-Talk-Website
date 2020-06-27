@@ -45,8 +45,8 @@
     session_start();
 
     $aResult = array();
-    // header($_SERVER['SERVER_PROTOCOL'] . " 403");
-    // header("Content-Type: application/json");
+    header($_SERVER['SERVER_PROTOCOL'] . " 403");
+    header("Content-Type: application/json");
 
     // Check referer
     $url = array();
@@ -83,7 +83,7 @@
                         $aResult['error'] = "Missing JWT cookie!";
                 }
                 else if ($_POST['page'] == 'index' || $_POST['page'] == 'comment') {
-                    if (jwt_setuser_id()) {
+                    if (jwt_setUserID()) {
                         header($_SERVER['SERVER_PROTOCOL'] . " 200");
                         $aResult['redirect'] = false;
                         $_SESSION['loginTurn'] = add_login_turn($configs);
@@ -96,7 +96,7 @@
                 }
                 else if ($_POST['page'] == 'login' || $_POST['page'] == 'register') {
                     // If SESSION set successfully, redirect to profile page
-                    if (jwt_setuser_id()) {
+                    if (jwt_setUserID()) {
                         header($_SERVER['SERVER_PROTOCOL'] . " 200");
                         $aResult['redirect'] = true;
                         $aResult['link'] = $configs['referer'] . "profile.php";
@@ -111,7 +111,7 @@
                 }
                 else if ($_POST['page'] == 'profile' || $_POST['page'] = 'postComment') {
                     // If SESSION set successfully, no need to redirect
-                    if (jwt_setuser_id()) {
+                    if (jwt_setUserID()) {
                         header($_SERVER['SERVER_PROTOCOL'] . " 200");
                         $aResult['redirect'] = false;
                         $_SESSION['loginTurn'] = add_login_turn($configs);
