@@ -10,7 +10,7 @@
                 </a>
                 <ul class="navbar-nav">';
 
-        if (isset($_SESSION['username']) && isset($_COOKIE['JWT'])) {
+        if (isset($_SESSION['user_id']) && isset($_COOKIE['JWT'])) {
             echo    '<li class="nav-item';
             if ($page == "profile") echo ' active';
             echo    '">
@@ -26,7 +26,7 @@
                     </li>';
 
         // Not having both SESSION and JWT
-        if (!isset($_SESSION['username']) || !isset($_COOKIE['JWT']))
+        if (!isset($_SESSION['user_id']) || !isset($_COOKIE['JWT']))
         {
             echo    '<li class="nav-item';
             if ($page == "login") echo ' active';

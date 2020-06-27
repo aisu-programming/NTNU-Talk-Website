@@ -2,7 +2,7 @@
   session_start();
 
   if (!isset($_COOKIE['JWT'])) {
-    unset($_SESSION['username']);
+    unset($_SESSION['user_id']);
     header("Location: login.php");
     exit;
   }
@@ -27,7 +27,7 @@
     <script src="js/check.js"></script>
     <script>
       r = <?php echo $_SESSION['randomNumber']; ?>;
-      if (getCookie('JWT') != "" && <?php echo isset($_SESSION['username']) * 1 ?> == 0) check('postComment');
+      if (getCookie('JWT') != "" && <?php echo isset($_SESSION['user_id']) * 1 ?> == 0) check('postComment');
     </script>
   </head>
 

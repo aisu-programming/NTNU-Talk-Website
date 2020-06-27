@@ -23,12 +23,12 @@
             return;
         }
 
-        $sql_result = $db->query(sqlcmd_addUserLoginTurn($_SESSION['username']));
+        $sql_result = $db->query(sqlcmd_addUserLoginTurn($_SESSION['user_id']));
 
         // Query failed
         if ($sql_result === FALSE) $output = "<br/>Unexpected error! (Please report)";
         else {
-            $sql_result = $db->query(sqlcmd_getUserLoginTurn($_SESSION['username']));
+            $sql_result = $db->query(sqlcmd_getUserLoginTurn($_SESSION['user_id']));
 
             // Query failed
             if ($sql_result === FALSE || $sql_result->num_rows !== 1)
@@ -45,8 +45,8 @@
     session_start();
 
     $aResult = array();
-    header($_SERVER['SERVER_PROTOCOL'] . " 403");
-    header("Content-Type: application/json");
+    // header($_SERVER['SERVER_PROTOCOL'] . " 403");
+    // header("Content-Type: application/json");
 
     // Check referer
     $url = array();
@@ -83,7 +83,7 @@
                         $aResult['error'] = "Missing JWT cookie!";
                 }
                 else if ($_POST['page'] == 'index' || $_POST['page'] == 'comment') {
-                    if (jwt_setUsername()) {
+                    if (jwt_setuser_id()) {
                         header($_SERVER['SERVER_PROTOCOL'] . " 200");
                         $aResult['redirect'] = false;
                         $_SESSION['loginTurn'] = add_login_turn($configs);
@@ -96,7 +96,7 @@
                 }
                 else if ($_POST['page'] == 'login' || $_POST['page'] == 'register') {
                     // If SESSION set successfully, redirect to profile page
-                    if (jwt_setUsername()) {
+                    if (jwt_setuser_id()) {
                         header($_SERVER['SERVER_PROTOCOL'] . " 200");
                         $aResult['redirect'] = true;
                         $aResult['link'] = $configs['referer'] . "profile.php";
@@ -111,7 +111,7 @@
                 }
                 else if ($_POST['page'] == 'profile' || $_POST['page'] = 'postComment') {
                     // If SESSION set successfully, no need to redirect
-                    if (jwt_setUsername()) {
+                    if (jwt_setuser_id()) {
                         header($_SERVER['SERVER_PROTOCOL'] . " 200");
                         $aResult['redirect'] = false;
                         $_SESSION['loginTurn'] = add_login_turn($configs);

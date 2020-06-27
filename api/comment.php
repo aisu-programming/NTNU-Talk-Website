@@ -100,11 +100,11 @@
                             if ($counter == 11) break;
 
                             if ($row['alive']) {
-                                if ($_SESSION['username'] == stringDecode($row['username'])) $editable = true;
+                                if ($_SESSION['user_id'] == stringDecode($row['user_id'])) $editable = true;
                                 else $editable = false;
                                 $comment = array('id'=>$row['id'], 
                                                  'avatar'=>$row['avatar'],
-                                                 'username'=>stringDecode($row['username']), 
+                                                 'user_id'=>stringDecode($row['user_id']), 
                                                  'title'=>stringDecode($row['title']), 
                                                  'content'=>stringDecode($row['content']), 
                                                  'editable'=>$editable);
@@ -173,7 +173,7 @@
                         $aResult['error'] = "Unexpected error! (Please report if you are not attacking me)";
                     }
                     // Authority check
-                    else if ($_SESSION['username'] != stringDecode($sql_result->fetch_assoc()['username'])) {
+                    else if ($_SESSION['user_id'] != stringDecode($sql_result->fetch_assoc()['user_id'])) {
                         header($_SERVER['SERVER_PROTOCOL'] . " 403");
                         if ($configs['debug'])
                             $aResult['error'] = "Unauthorized action!";
@@ -199,7 +199,7 @@
                 break;
 
             case 'postComment':
-                if (!isset($_SESSION['username']) || !isset($_COOKIE['JWT'])) {
+                if (!isset($_SESSION['user_id']) || !isset($_COOKIE['JWT'])) {
                     $aResult['error'] = "Action unauthorized! (Please login first)";
                 }
                 else if (is_invalid('title') || is_invalid('content')) {
@@ -234,7 +234,7 @@
                         break;
                     }
 
-                    $sql_result = $db->query(sqlcmd_addComment($_SESSION['username'], $_POST['title'], $_POST['content']));
+                    $sql_result = $db->query(sqlcmd_addComment($_SESSION['user_id'], $_POST['title'], $_POST['content']));
 
                     // Query failed
                     if ($sql_result === FALSE) {

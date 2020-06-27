@@ -4,7 +4,7 @@
   // Ban users who is not login but try to visit this page
   // So this page only allow users who has JWT cookie
   if (!isset($_COOKIE['JWT'])) {
-    unset($_SESSION['username']);
+    unset($_SESSION['user_id']);
     header("Location: login.php");
     exit;
   }
@@ -37,7 +37,7 @@
     <!-- <script>
       r = <?php echo $_SESSION['randomNumber']; ?>;
       <?php // Check if user has JWT but so SESSION ?>
-      if (getCookie('JWT') != "" && <?php echo isset($_SESSION['username']) * 1 ?> == 0) check('profile');
+      if (getCookie('JWT') != "" && <?php echo isset($_SESSION['user_id']) * 1 ?> == 0) check('profile');
     </script> -->
     <!-- <script defer>
       updateAvatar();
@@ -51,7 +51,7 @@
 
     <div class="container-fluid h-100" style="padding-top: 65px;">
 
-      <?php if (isset($_SESSION['username'])) { ?>
+      <?php if (isset($_SESSION['user_id'])) { ?>
         <div class="row head-spacer" style="height: 32px;"></div>
       <?php } else { ?>
         <div class="row head-spacer" style="height: 72px;"></div>
