@@ -14,8 +14,15 @@
             echo    '<li class="nav-item';
             if ($page == "profile") echo ' active';
             echo    '">
-                        <a class="nav-link" href="/profile.php">個人頁面</a>
-                    </li>';
+                        <a class="nav-link" href="/profile.php">個人頁面</a>';
+            echo    '</li>';
+
+            echo    '<li class="nav-item';
+            if ($page == "chat") echo ' active';
+            echo    '">
+                        <a class="nav-link" href="./chat.php">聊天室</a>';
+            echo    '</li>';
+
         }
 
         
