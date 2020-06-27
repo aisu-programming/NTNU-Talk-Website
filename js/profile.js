@@ -1,15 +1,3 @@
-function updateAvatar () {
-
-    post('api/profile.php', {
-        action: 'updateAvatar',
-        r: r
-    }, function (response) {
-        document.getElementById("avatar").src = response.link;
-    }, function (response) {
-        document.getElementById("avatar").src = response.link;
-    });
-}
-
 function uploadImage() {
     
     var image = document.getElementById("upload-image").files[0];
@@ -44,11 +32,8 @@ function uploadImage() {
                 link: response.data.link,
                 r: r
             }, function (response) {
-                updateAvatar();
+                location.reload();
             });
-
-            text.text = "上傳";
-            spinner.style.display = 'none';
         },
 
         error: function (xhr) {
@@ -59,4 +44,28 @@ function uploadImage() {
             spinner.style.display = 'none';
         }
     });           
+}
+
+function follow(userId) {
+
+    post('api/profile.php', {
+        action: 'follow',
+        userId: userId,
+        r: r
+    }, function (response) {
+        location.reload();
+    });
+
+}
+
+function cancelFollow(userId) {
+
+    post('api/profile.php', {
+        action: 'cancelFollow',
+        userId: userId,
+        r: r
+    }, function (response) {
+        location.reload();
+    });
+
 }

@@ -1,9 +1,9 @@
 <?php
 
     declare(strict_types=1);
-    $configs = include('config/config.php');
-    include('lib/sqlcmd.php');
-    include('lib/jwt.php');
+    $configs = include($_SERVER['DOCUMENT_ROOT'] . "/api/config/config.php");
+    include($_SERVER['DOCUMENT_ROOT'] . "/api/lib/sqlcmd.php");
+    include($_SERVER['DOCUMENT_ROOT'] . "/api/lib/jwt.php");
 
     function is_invalid(string $argsName) : bool {
         if (!isset($_POST[$argsName]) || $_POST[$argsName] === '') return true;
@@ -49,7 +49,7 @@
                     // Database connect failed
                     if (!$db) {
                         header($_SERVER['SERVER_PROTOCOL'] . " 501");
-                        $aResult['error'] = "Connect Error ($db->connect_errno) $db->connect_error";
+                        $aResult['error'] = "Debugging errno: " . mysqli_connect_errno();
                         break;
                     }
 

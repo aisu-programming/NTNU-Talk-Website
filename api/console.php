@@ -1,6 +1,6 @@
 <?php
 
-  $configs = include('config/config.php');
+  $configs = include($_SERVER['DOCUMENT_ROOT'] . "/api/config/config.php");
 
   $db = mysqli_connect($configs['host'],
                        $configs['username'],
