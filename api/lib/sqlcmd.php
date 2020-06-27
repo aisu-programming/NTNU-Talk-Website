@@ -93,7 +93,7 @@
     function sqlcmd_updateAvatar(string $user_id, string $link) : string {
 
         return "UPDATE user SET avatar = '$link' 
-                WHERE username = '$user_id'";
+                WHERE user_id = '$user_id'";
     }
 
     // ------------------------------ ↓ Relations ↓ ------------------------------ //
