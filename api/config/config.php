@@ -11,12 +11,14 @@
         'exp' => 7200,      // 2 hours
 
         // Programming
-        // 'referer' =>"http://114.24.94.76:9487/",
+        // 'referer' =>"http://114.24.140.25:9487/",    // aisu
+        // 'referer' =>"http://114.24.140.25:9478/",    // cactus
         'referer' => "http://localhost/",
         
         // Database
         'host' => 'localhost',
         'username' => 'root',
+        // 'password' => '415646851',
         // 'host' => "140.122.184.132",
         // 'username' => 'team10',
         'password' => 'DBehZktaWHEvdlY',

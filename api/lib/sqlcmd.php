@@ -187,7 +187,8 @@
         $last_item = $page * 10 + 1;
         $first_item = $last_item - 10;
 
-        return "SELECT comment.*, user.avatar FROM comment, user 
+        return "SELECT comment.*, user.user_id, user.avatar, user.nickname FROM comment
+                LEFT JOIN user ON user.user_id = comment.user_id
                 WHERE comment.id >= $first_item AND comment.id <= $last_item AND comment.user_id=user.user_id";
     }
 
