@@ -1,12 +1,6 @@
 <?php
-  session_start();
-
-  if (!isset($_COOKIE['JWT'])) {
-    unset($_SESSION['user_id']);
-    header("Location: login.php");
-    exit;
-  }
-
+  include($_SERVER['DOCUMENT_ROOT'] . '/cookie.php');
+  check_cookie("postComment");
   $_SESSION['randomNumber'] = mt_rand();
 ?>
 
@@ -24,10 +18,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script src="js/request.js"></script>
     <script src="js/comment.js"></script>
-    <script src="js/check.js"></script>
     <script>
       r = <?php echo $_SESSION['randomNumber']; ?>;
-      // if (getCookie('JWT') != "" && <?php echo isset($_SESSION['user_id']) * 1 ?> == 0) check('postComment');
     </script>
   </head>
 

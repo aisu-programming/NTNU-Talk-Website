@@ -10,6 +10,6 @@ function login() {
         r: r
     }, function (response) {
         alert(response.result);
-        check('login');
+        location.reload();
     });
 }

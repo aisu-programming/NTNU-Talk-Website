@@ -116,7 +116,7 @@
                 OR (a_id = '$target_id' AND b_id = '$user_id')";
     }
 
-    function sqlcmd_createRelationAndFollow(string $user_id, string $target_id) : string {
+    function sqlcmd_addRelationAndFollow(string $user_id, string $target_id) : string {
         return "INSERT INTO relation (status, a_id, b_id) 
                 VALUES (1, '$user_id', '$target_id')";
     }
@@ -130,7 +130,7 @@
                         WHEN (a_id = '$target_id' AND b_id = '$user_id' AND status = 1) THEN 3
                         ELSE status
                     END
-                ) 
+                )
                 WHERE (a_id = '$user_id' AND b_id = '$target_id')
                 OR (a_id = '$target_id' AND b_id = '$user_id')";
     }
@@ -147,6 +147,26 @@
         ) 
         WHERE (a_id = '$user_id' AND b_id = '$target_id')
         OR (a_id = '$target_id' AND b_id = '$user_id')";
+    }
+
+    // ------------------------------ ↓ Messages ↓ ------------------------------ //
+
+    function sqlcmd_createMessageTable() : string {
+        return "CREATE TABLE message (
+                    message_id int unsigned NOT NULL AUTO_INCREMENT,
+                    sender_id varchar(9) NOT NULL,
+                    receiver_id varchar(9) NOT NULL,
+                    content varchar(200) NOT NULL,
+                    time timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                    is_deleted tinyint unsigned NOT NULL DEFAULT '0',
+                    PRIMARY KEY (message_id),
+                    UNIQUE KEY message_id_UNIQUE (message_id)
+                )";
+    }
+
+    function sqlcmd_addMessage(string $user_id, string $target_id, string $content) : string {
+        return "INSERT INTO relation (sender_id, receiver_id, content) 
+                VALUES ($user_id, '$target_id', '$content')";
     }
 
     // ------------------------------ ↓ Comments ↓ ------------------------------ //
@@ -168,7 +188,7 @@
         $first_item = $last_item - 10;
 
         return "SELECT comment.*, user.user_id, user.avatar, user.nickname FROM comment
-                Left JOIN user ON user.user_id = comment.user_id
+                LEFT JOIN user ON user.user_id = comment.user_id
                 WHERE comment.id >= $first_item AND comment.id <= $last_item AND comment.user_id=user.user_id";
     }
 

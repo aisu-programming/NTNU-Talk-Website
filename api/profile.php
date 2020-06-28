@@ -122,7 +122,7 @@
                         // Haven't create relation table between the user and the target user
                         else if ($sql_result->num_rows === 0) {
 
-                            $sql_result = $db->query(sqlcmd_createRelationAndFollow($_SESSION['user_id'], $_POST['userId']));
+                            $sql_result = $db->query(sqlcmd_addRelationAndFollow($_SESSION['user_id'], $_POST['userId']));
 
                             if ($sql_result === FALSE) {
                                 header($_SERVER['SERVER_PROTOCOL'] . " 501");

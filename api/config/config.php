@@ -11,10 +11,8 @@
         'exp' => 7200,      // 2 hours
 
         // Programming
-        //aisu
-        // 'referer' =>"http://114.24.140.25:9487/",
-        //cactus
-        // 'referer' =>"http://114.24.140.25:9478/",
+        // 'referer' =>"http://114.24.140.25:9487/",    // aisu
+        // 'referer' =>"http://114.24.140.25:9478/",    // cactus
         'referer' => "http://localhost/",
         
         // Database

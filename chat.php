@@ -1,17 +1,7 @@
-<?php include($_SERVER['DOCUMENT_ROOT'] . '/cookie.php');
-
-  check_cookie("index");
-  
-  session_start();
+<?php 
+  include($_SERVER['DOCUMENT_ROOT'] . '/cookie.php');
+  check_cookie("chat");
   $_SESSION['randomNumber'] = mt_rand();
-  
-  if (!isset($_SESSION['user_id']) && !isset($_COOKIE['JWT'])) {
-    header("Location: profile.php");
-    exit;
-  }
-  else if (!isset($_SESSION['user_id']) && isset($_COOKIE['JWT'])) {
-    unset($_SESSION['user_id']);
-  }
 ?>
 
 <!DOCTYPE HTML>
@@ -28,7 +18,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script src="js/request.js"></script>
     <script src="js/aisu.js"></script>
-    <script src="js/check.js"></script>
 
     <!-- Dynamic Chat Box 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
