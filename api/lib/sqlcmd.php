@@ -179,7 +179,7 @@
                 FROM message
                 WHERE (message.sender_id = '$user_id' AND message.receiver_id = '$target_id')
                 OR (message.sender_id = '$target_id' AND message.receiver_id = '$user_id')
-                ORDER BY time DESC;";
+                ORDER BY time ASC;";
         }
     
     function sqlcmd_addMessage(string $user_id, string $target_id, string $content) : string {
