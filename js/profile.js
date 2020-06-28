@@ -43,7 +43,7 @@ function uploadImage() {
             text.text = "上傳";
             spinner.style.display = 'none';
         }
-    });           
+    });
 }
 
 function follow(userId) {

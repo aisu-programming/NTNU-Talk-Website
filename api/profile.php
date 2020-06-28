@@ -41,7 +41,7 @@
                     $aResult['error'] = "Missing arguments!";
                 }
                 // Invalid link (Somebody attacks me)
-                else if (strlen($_POST['link']) > 40 || strpos($_POST['link'], "https://i.imgur.com/") !== 0) {
+                else if (strlen($_POST['link']) != 31 || strpos($_POST['link'], "https://i.imgur.com/") !== 0) {
                     if ($configs['debug'])
                         $aResult['error'] = "Invalid link.";
                 }
@@ -159,55 +159,55 @@
                 }
                 break;
 
-                case 'cancelFollow':
-                    if (is_invalid('userId')) {
-                        $aResult['error'] = "Missing arguments!";
+            case 'cancelFollow':
+                if (is_invalid('userId')) {
+                    $aResult['error'] = "Missing arguments!";
+                }
+                else {
+                    $db = mysqli_connect($configs['host'],
+                                            $configs['username'],
+                                            $configs['password'],
+                                            $configs['dbname']);
+
+                    // Database connect failed
+                    if (!$db) {
+                        header($_SERVER['SERVER_PROTOCOL'] . " 501");
+                        $aResult['error'] = "Debugging errno: " . mysqli_connect_errno();
+                        break;
+                    }
+
+                    // Query to check that relation exist
+                    $sql_result = $db->query(sqlcmd_checkRelation($_SESSION['user_id'], $_POST['userId']));
+
+                    // Query failed
+                    if ($sql_result === FALSE) {
+                        header($_SERVER['SERVER_PROTOCOL'] . " 501");
+                        $aResult['error'] = $db->error;
+                    }
+                    // Bug
+                    else if ($sql_result->num_rows !== 1) {
+                        header($_SERVER['SERVER_PROTOCOL'] . " 403");
+                        $aResult['error'] = "This is a bug. Please report.";
                     }
                     else {
-                        $db = mysqli_connect($configs['host'],
-                                             $configs['username'],
-                                             $configs['password'],
-                                             $configs['dbname']);
-    
-                        // Database connect failed
-                        if (!$db) {
-                            header($_SERVER['SERVER_PROTOCOL'] . " 501");
-                            $aResult['error'] = "Debugging errno: " . mysqli_connect_errno();
-                            break;
-                        }
-    
-                        // Query to check that relation exist
-                        $sql_result = $db->query(sqlcmd_checkRelation($_SESSION['user_id'], $_POST['userId']));
-    
+
+                        $sql_result = $db->query(sqlcmd_cancelFollow($_SESSION['user_id'], $_POST['userId']));
+
                         // Query failed
                         if ($sql_result === FALSE) {
                             header($_SERVER['SERVER_PROTOCOL'] . " 501");
                             $aResult['error'] = $db->error;
                         }
-                        // Bug
-                        else if ($sql_result->num_rows !== 1) {
-                            header($_SERVER['SERVER_PROTOCOL'] . " 403");
-                            $aResult['error'] = "This is a bug. Please report.";
-                        }
                         else {
-
-                            $sql_result = $db->query(sqlcmd_cancelFollow($_SESSION['user_id'], $_POST['userId']));
-
-                            // Query failed
-                            if ($sql_result === FALSE) {
-                                header($_SERVER['SERVER_PROTOCOL'] . " 501");
-                                $aResult['error'] = $db->error;
-                            }
-                            else {
-                                header($_SERVER['SERVER_PROTOCOL'] . " 200");
-                                $aResult['result'] = "Cancel follow succeed!";
-                            }
+                            header($_SERVER['SERVER_PROTOCOL'] . " 200");
+                            $aResult['result'] = "Cancel follow succeed!";
                         }
-    
-                        // Close the connection
-                        $db->close();
                     }
-                    break;
+
+                    // Close the connection
+                    $db->close();
+                }
+                break;
 
             default:
                 if ($configs['debug'])
