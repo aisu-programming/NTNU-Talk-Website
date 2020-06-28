@@ -15,9 +15,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/mycss.css">
+    <link rel="stylesheet" href="/css/main.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    
+    
     <script src="js/request.js"></script>
     <script src="js/aisu.js"></script>
     <script src="js/check.js"></script>
@@ -41,7 +44,7 @@
       <?php include($_SERVER['DOCUMENT_ROOT'] . "/component/bar.php");
         display_title_bar("index");
       ?>
-
+    <!--
       <div class="row justify-content-start align-content-center h-100" style="padding-top: 65px;">
         <div class="col-6 col-md-5">
           <div class="row justify-content-end align-content-center h-100" style="padding-left: 15px;">
@@ -84,6 +87,53 @@
       </div>
       
     </div>
+    -->  
+    <section id="three" class="wrapper align-center">
+			<div class="inner">
+				<div class="flex flex-2">
+						<article>
+						<div class="image round">
+							<img src="aisu.jpg" alt="Pic 01" width="150px"/>
+						</div>
+						<header>
+							<h3>Lorem ipsum<br /> dolor amet nullam</h3>
+						</header>
+						<p>Morbi in sem quis dui placerat ornare. Pellentesquenisi<br />euismod in, pharetra a, ultricies in diam sed arcu. Cras<br />consequat  egestas augue vulputate.</p>
+						<footer>
+							<a href="#" class="button">Learn More</a>
+						</footer>
+					</article>
+					<article>
+						<div class="image round">
+							<img src="cactus.jpg" alt="Pic 02" width="121px"/>
+						</div>
+						<header>
+							<h3>Sed feugiat<br /> tempus adipicsing</h3>
+						</header>
+						<p>Pellentesque fermentum dolor. Aliquam quam lectus<br />facilisis auctor, ultrices ut, elementum vulputate, nunc<br /> blandit ellenste egestagus commodo.</p>
+						<footer>
+							<a href="#" class="button">Learn More</a>
+						</footer>
+          </article>
+          <article>
+						<div class="image round">
+							<img src="cactus.jpg" alt="Pic 02" width="121px"/>
+						</div>
+						<header>
+							<h3>Sed feugiat<br /> tempus adipicsing</h3>
+						</header>
+						<p>Pellentesque fermentum dolor. Aliquam quam lectus<br />facilisis auctor, ultrices ut, elementum vulputate, nunc<br /> blandit ellenste egestagus commodo.</p>
+						<footer>
+							<a href="#" class="button" >Learn More</a>
+						</footer>
+					</article>
+				</div>
+			</div>
+		</section>
+
+
+
+
   </body>
 
 </html>
