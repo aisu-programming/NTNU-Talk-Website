@@ -6,7 +6,7 @@
             '<nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
                 <a class="navbar-brand p-0" href="/">
                     <!-- img src="logo.png" alt="Logo" style="width: 50px;" -->
-                    NTNU talk X
+                    NTNU talk
                 </a>
                 <ul class="navbar-nav">';
 
@@ -41,7 +41,7 @@
                         <a class="nav-link" href="/login.php">登入</a>
                     </li>
                     <li class="nav-item';
-            if ($page == "register") echo ' active';    
+            if ($page == "register") echo ' active';
             echo    '">
                         <a class="nav-link" href="/register.php">註冊</a>
                     </li>';

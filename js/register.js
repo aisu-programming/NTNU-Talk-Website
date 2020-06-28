@@ -23,6 +23,6 @@ function register() {
         r: r
     }, function (response) {
         alert('Register succeed!');
-        check('register');
+        location.reload();
     });
 }

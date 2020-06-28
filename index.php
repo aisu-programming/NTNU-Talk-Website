@@ -1,9 +1,7 @@
-<?php include($_SERVER['DOCUMENT_ROOT'] . '/cookie.php');
-
+<?php
+  include($_SERVER['DOCUMENT_ROOT'] . '/cookie.php');
   check_cookie("index");
-
   $_SESSION['randomNumber'] = mt_rand();
-
 ?>
 
 <!DOCTYPE HTML>
@@ -20,7 +18,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script src="js/request.js"></script>
     <script src="js/aisu.js"></script>
-    <script src="js/check.js"></script>
 
     <!-- Dynamic Chat Box 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">

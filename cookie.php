@@ -7,35 +7,47 @@
         session_start();
 
         $pages_not_login = array("login", "register");
-        $pages_no_matter = array("index");
+        $pages_need_login = array("profile", "postComment", "chat");
 
         if (in_array($page, $pages_not_login))
         {
             // Ban users who was already login but try to visit this page
-            if (isset($_SESSION['user_id']) && isset($_COOKIE['JWT']))
+            if (isset($_COOKIE['JWT']))
             {
-                header("Location: profile.php");
-                exit;
+                jwt_setUserID();
+                if (isset($_SESSION['user_id']))
+                {
+                    header("Location: profile.php");
+                    exit;
+                }
             }
             // Bug
             else if (isset($_SESSION['user_id']) && !isset($_COOKIE['JWT'])) unset($_SESSION['user_id']);
         }
-        else if (in_array($page, $pages_no_matter))
-        {
-            
-        }
-        else
+        else if (in_array($page, $pages_need_login))
         {
             if (!isset($_COOKIE['JWT']))
             {
+                unset($_SESSION['user_id']);
                 header("Location: login.php");
                 exit;
             }
-            else if (!isset($_SESSION['user_id']))
+            else
             {
-                echo "<script>console.log(". jwt_decode() .");</script>";
+                jwt_setUserID();
+                if (!isset($_SESSION['user_id']))
+                {
+                    header("Location: login.php");
+                    exit;
+                }
             }
         }
+        else
+        {
+            if (isset($_COOKIE['JWT'])) jwt_setUserID();
+            else unset($_SESSION['user_id']);
+        }
+
     }
 
 ?>
