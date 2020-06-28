@@ -18,14 +18,8 @@
     exit;
   }
 
-  // If an user wants to look his/her profile when he/she is not login, redirect to login page
-  if (!isset($_GET['user_id']) && !isset($_SESSION['user_id']))
-  {
-    header("Location: login.php");
-    exit;
-  }
   // If URL has no user_id at the end, regard as looking himself/herself
-  if (!isset($_GET['user_id']) && isset($_SESSION['user_id'])) $_GET['user_id'] = $_SESSION['user_id'];
+  if (!isset($_GET['user_id'])) $_GET['user_id'] = $_SESSION['user_id'];
 
   // Query for the user's information
   $sql_result = $db->query(sqlcmd_getProfile($_GET['user_id']));
