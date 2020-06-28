@@ -35,7 +35,9 @@
     <div class="container-fluid h-100">
 
       <!-- Title bar -->
-      <?php include($_SERVER['DOCUMENT_ROOT'] . "/component/bar.php");?>
+      <?php include($_SERVER['DOCUMENT_ROOT'] . "/component/bar.php");
+        display_title_bar("index");
+      ?>
 
       <div class="row justify-content-center align-content-center h-100" style="padding-top: 65px;">
         <div class="col-12 col-md-10" align="center">

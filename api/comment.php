@@ -71,6 +71,8 @@
                         $db->close();
                         break;
                     }
+
+                    //sqlcmd_getComments left join with user to get nickname and avatr
                     $sql_result = $db->query(sqlcmd_getComments($page));
 
                     // Query failed
@@ -103,8 +105,9 @@
                                 if ($_SESSION['user_id'] == $row['user_id']) $editable = true;
                                 else $editable = false;
                                 $comment = array('id'=>$row['id'], 
-                                                 // 'avatar'=>$row['avatar'],
-                                                 'user_id'=>$row['user_id'], 
+                                                 'avatar'=>$row['avatar'],
+                                                 'user_id'=>$row['user_id'],
+                                                 'nickname'=>stringDecode($row['nickname']),
                                                  'title'=>stringDecode($row['title']), 
                                                  'content'=>stringDecode($row['content']), 
                                                  'editable'=>$editable);

@@ -44,10 +44,11 @@ function listComment(comments) {
 
             group.innerHTML += text;
 
-            document.getElementById("comment-" + comment.id + "-user-nickname").innerText = comment.user_id;
+            document.getElementById("comment-" + comment.id + "-user-nickname").innerText = comment.nickname;
             document.getElementById("comment-" + comment.id + "-title").innerText = '標題：' + comment.title;
             document.getElementById("comment-" + comment.id + "-content").innerText = '內容：' + comment.content;
         }
+        /*
         else {
             var text =
                 '<div class="card w-100" style="margin-bottom: 8px;">' +
@@ -57,6 +58,7 @@ function listComment(comments) {
                 '</div>';
             group.innerHTML += text;
         }
+        */
     });
 }
 

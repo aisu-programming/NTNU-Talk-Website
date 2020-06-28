@@ -58,7 +58,7 @@
                         break;
                     }
 
-                    $sql_result = $db->query(sqlcmd_updateAvatar($_SESSION['username'], $_POST['link']));
+                    $sql_result = $db->query(sqlcmd_updateAvatar($_SESSION['user_id'], $_POST['link']));
 
                     // Query failed
                     if ($sql_result === FALSE) {
