@@ -50,7 +50,6 @@
     }
 
     function sqlcmd_checkUserExist(string $user_id) : string {
-
         return "SELECT user_id FROM user 
                 WHERE user_id = '$user_id'";
     }
@@ -64,7 +63,7 @@
                 VALUES ('$user_id', '$sha512_pwd', '$encode_nickname')";
     }
     
-    function sqlcmd_getUser(string $user_id, string $password) : string {
+    function sqlcmd_userLogin(string $user_id, string $password) : string {
 
         $sha512_pwd = hash('sha512', $password);
 
@@ -73,25 +72,21 @@
     }
 
     function sqlcmd_addUserLoginTurn(string $user_id) : string {
-
         return "UPDATE user SET login_turn = login_turn + 1 
                 WHERE user_id = '$user_id'";
     }
 
     function sqlcmd_getUserLoginTurn(string $user_id) : string {
-
         return "SELECT login_turn FROM user WHERE user_id = '$user_id'";
     }
     
     // Not finished
     function sqlcmd_getProfile(string $user_id) {
-
         return "SELECT nickname, avatar FROM user 
                 WHERE user_id = '$user_id'";
     }
     
     function sqlcmd_updateAvatar(string $user_id, string $link) : string {
-
         return "UPDATE user SET avatar = '$link' 
                 WHERE user_id = '$user_id'";
     }
@@ -164,9 +159,35 @@
                 )";
     }
 
+    function sqlcmd_getAllChatRoom(string $user_id) {
+        return "SELECT DISTINCT user.user_id AS uid, user.nickname AS nickname, user.avatar AS avatar, message.content AS preview, case 
+                    WHEN (message.sender_id = '$user_id' AND message.receiver_id = user.user_id) THEN TRUE
+                    ELSE FALSE
+                END AS send_by_me
+                FROM message, user
+                WHERE (message.sender_id = '$user_id' AND message.receiver_id = user.user_id)
+                OR (message.receiver_id = '$user_id' AND message.sender_id = user.user_id)
+                GROUP BY uid
+                ORDER BY message.time DESC";
+    }
+
+    function sqlcmd_getMessage(string $user_id, string $target_id) : string {
+        return "SELECT content, case 
+                    WHEN (message.sender_id = '$user_id' AND message.receiver_id = '$target_id') THEN TRUE
+                    ELSE FALSE
+                END AS send_by_me
+                FROM message
+                WHERE (message.sender_id = '$user_id' AND message.receiver_id = '$target_id')
+                OR (message.sender_id = '$target_id' AND message.receiver_id = '$user_id')
+                ORDER BY time DESC;";
+        }
+    
     function sqlcmd_addMessage(string $user_id, string $target_id, string $content) : string {
-        return "INSERT INTO relation (sender_id, receiver_id, content) 
-                VALUES ($user_id, '$target_id', '$content')";
+
+        $encode_content = stringEncode($content);
+
+        return "INSERT INTO message (sender_id, receiver_id, content) 
+                VALUES ('$user_id', '$target_id', '$encode_content')";
     }
 
     // ------------------------------ ↓ Comments ↓ ------------------------------ //
