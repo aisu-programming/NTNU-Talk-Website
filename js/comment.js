@@ -29,7 +29,7 @@ function listComment(comments)
                         '</div>' +
                         '<div class="flex-column flex-grow-1 w-50" style="padding: 12px; padding-left: 0px;">' +
                             '<div class="d-flex flex-row">' +
-                                '<h4 class="flex-fill" id="comment-' + comment.id + '-user-id"></h4>';
+                                '<h4 class="flex-fill" id="comment-' + comment.id + '-user-nickname"></h4>';
             if (comment.editable) text +=
                                 '<button type="button" class="btn btn-outline-danger flex-shrink-1" onclick="deleteComment(' + comment.id + ')">' +
                                     '<i class="fa fa-trash"></i></button>';

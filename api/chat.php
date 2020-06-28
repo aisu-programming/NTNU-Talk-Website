@@ -17,8 +17,8 @@
     header("Content-Type: application/json");
 
     // Check referer
-    $url = $configs['referer'] . "login.php";
-    if ($_SERVER['HTTP_REFERER'] != $url) {
+    $url = $configs['referer'] . "chat.php";
+    if (strpos($_SERVER['HTTP_REFERER'], $url) !== 0) {
         if ($configs['debug'])
             $aResult['error'] = "Unauthorized referer.";
     }
@@ -36,9 +36,24 @@
 
         switch($_POST['action']) {
 
-            case 'login':
-                if (is_invalid('user_id') || is_invalid('password')) {
+            case 'sendMessage':
+                if (is_invalid('target_id') || is_invalid('message')) {
                     $aResult['error'] = "Missing arguments!";
+                }
+                // Invalid message (Cannot send to user himself/herself)
+                else if ($_POST['target_id'] === $_SESSION['user_id']) {
+                    if ($configs['debug'])
+                        $aResult['error'] = "You can't send message to yourself.";
+                }
+                // Invalid target_id
+                else if (strlen($_POST['target_id']) != 9) {
+                    if ($configs['debug'])
+                        $aResult['error'] = "Invalid target User ID.";
+                }
+                // Message too long
+                else if (strlen($_POST['message']) > 150) {
+                    if ($configs['debug'])
+                        $aResult['error'] = "Message too long!";
                 }
                 else {
                     $db = mysqli_connect($configs['host'],
@@ -53,47 +68,28 @@
                         break;
                     }
 
-                    $sql_result = $db->query(sqlcmd_userLogin($_POST['user_id'], $_POST['password']));
+                    $sql_result = $db->query(sqlcmd_addMessage($_SESSION['user_id'], $_POST['target_id'], $_POST['message']));
 
                     // Query failed
                     if ($sql_result === FALSE) {
                         header($_SERVER['SERVER_PROTOCOL'] . " 501");
                         $aResult['error'] = $db->error;
                     }
-                    // No user found
-                    else if ($sql_result->num_rows === 0) {
-                        $aResult['error'] = "Login failed!";
-                    }
-                    // Database accident or being attacked
-                    else if ($sql_result->num_rows > 1) {
-                        header($_SERVER['SERVER_PROTOCOL'] . " 501");
-                        $aResult['error'] = "Unexpected error! (Please report if you are not attacking me)";
-                    }
                     else {
-                        $jwt_result = jwt_create($_POST['user_id'],
-                                                 $configs['isser'],
-                                                 $configs['exp'],
-                                                 $configs['key']);
-                        if (strpos($jwt_result, "Error:") === 0) {
-                            $aResult['error'] = $jwt_result . " (Please report)";
-                        }
-                        else {
-                            header($_SERVER['SERVER_PROTOCOL'] . " 200");
-                            $aResult['result'] = "Login succeed with '" . $_POST['user_id'] . "'.";
-                        }
+                        header($_SERVER['SERVER_PROTOCOL'] . " 200");
+                        $aResult['result'] = "Message sent succeed!";
                     }
-                    
-                    //Close the connection
+
+                    // Close the connection
                     $db->close();
                 }
                 break;
 
             default:
                 if ($configs['debug'])
-                    $aResult['error'] === "Nonexistent action.";
+                    $aResult['error'] = "Nonexistent action.";
         }
     }
-
+    
     echo json_encode($aResult);
-
 ?>
