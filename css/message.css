@@ -2,10 +2,10 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    max-height: 94.4vh;
+    max-height: 94vh;
     min-height: 70vh;
-    max-width: 202vh;
-
+    max-width: 205.6vh;
+    min-width: 200vh;
     background: #FFFFFF;
     font-family: "proxima-nova", "Source Sans Pro", sans-serif;
     font-size: 1em;
@@ -16,7 +16,7 @@ body {
     -webkit-font-smoothing: antialiased;
     margin-top: 47px;
     margin-left: -15px;
-    margin-right: -15px;
+    margin-right: -10px;
     margin-bottom: -50px;
     
   }

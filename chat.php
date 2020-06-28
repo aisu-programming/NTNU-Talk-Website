@@ -350,12 +350,12 @@
               if (isset($_GET['user_id'])) {
                 for($i = 0; $i < count($content); $i++) {
                   if ($content[$i]['send_by_me'] == 1) echo 
-            '<li class="sent">
+            '<li class="replies">
               <img src="' . htmlentities($me['avatar'], ENT_NOQUOTES) . '" />
               <p >' . htmlentities($content[$i]['content'], ENT_NOQUOTES) . '</p>
             </li>';
                   else echo
-            '<li class="replies">
+            '<li class="sent">
               <img src="' . htmlentities($target['avatar'], ENT_NOQUOTES) . '"/>
               <p>' . htmlentities($content[$i]['content'], ENT_NOQUOTES) . '</p>
             </li>';

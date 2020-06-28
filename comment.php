@@ -32,7 +32,7 @@
     </script>
   </head>
 
-  <body>
+  <body style="overflow-y: auto; overflow-x: hidden;"?>
 
     <!-- Title bar -->
     <?php include($_SERVER['DOCUMENT_ROOT'] . "/component/bar.php");
