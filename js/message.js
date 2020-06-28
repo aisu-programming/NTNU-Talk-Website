@@ -62,5 +62,6 @@ $(window).on('keydown', function(e) {
         newMessage();
         return false;
     }
+
 });
-//# sourceURL=pen.js
+sourceURL=pen.js
