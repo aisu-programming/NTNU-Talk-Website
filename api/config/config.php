@@ -16,11 +16,10 @@
         'referer' => "http://localhost/",
         
         // Database
-        'host' => 'localhost',
-        'username' => 'root',
-        // 'password' => '415646851',
-        // 'host' => "140.122.184.132",
-        // 'username' => 'team10',
+        // 'host' => 'localhost',
+        // 'username' => 'root',
+        'host' => "140.122.184.132",
+        'username' => 'team10',
         'password' => 'DBehZktaWHEvdlY',
         'dbname' => 'team10',
     );
