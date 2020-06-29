@@ -160,15 +160,19 @@
     }
 
     function sqlcmd_getAllChatRoom(string $user_id) {
-        return "SELECT DISTINCT user.user_id AS uid, user.nickname AS nickname, user.avatar AS avatar, message.content AS preview, case 
-                    WHEN (message.sender_id = '$user_id' AND message.receiver_id = user.user_id) THEN TRUE
+        return "SELECT user_id AS uid, nickname, avatar, content AS preview, case 
+                    WHEN (sender_id = '$user_id' AND receiver_id = user_id) THEN TRUE
                     ELSE FALSE
                 END AS send_by_me
-                FROM message, user
-                WHERE (message.sender_id = '$user_id' AND message.receiver_id = user.user_id)
-                OR (message.receiver_id = '$user_id' AND message.sender_id = user.user_id)
-                GROUP BY uid
-                ORDER BY message.time DESC";
+                FROM (
+                    SELECT user.user_id, user.nickname, user.avatar, message.content, message.sender_id, message.receiver_id
+                    FROM message, user
+                    WHERE (message.sender_id = '$user_id' AND message.receiver_id = user.user_id)
+                    OR (message.receiver_id = '$user_id' AND message.sender_id = user.user_id)
+                    ORDER BY message.message_id DESC
+                    LIMIT 9999
+                ) AS new_table
+                GROUP BY user_id";
     }
 
     function sqlcmd_getMessage(string $user_id, string $target_id) : string {
