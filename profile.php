@@ -86,7 +86,7 @@
     </script>
   </head>
   
-  <body>
+  <body style="overflow-y: hidden; overflow-x: hidden;">
     <div class="container-fluid h-100">
 
       <!-- Title bar -->

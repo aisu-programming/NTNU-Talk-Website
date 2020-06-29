@@ -46,7 +46,18 @@
                         <a class="nav-link" href="/register.php">註冊</a>
                     </li>';
         }
-
+/*
+        if (isset($_SESSION['user_id']) && isset($_COOKIE['JWT'])) 
+        {
+            echo    '<li class="nav-item';
+            if ($page == "") echo ' active';
+            echo    '">
+                        <div style="text-align:right">
+                            <a class="nav-link" href="./login.php">登出</a>
+                        </div>';
+            echo    '</li>';
+        }
+*/
         echo    '</ul>
             </nav>';
     }
