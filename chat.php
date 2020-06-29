@@ -138,10 +138,8 @@
     <!-- For Chat Website -->
     <!-- <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> -->
     <script src="js/chat.js"></script>
-    
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-    
     
     <script src='//production-assets.codepen.io/assets/editor/live/console_runner-079c09a0e3b9ff743e39ee2d5637b9216b3545af0de366d4b9aad9dc87e26bfd.js'></script>
     <script src='//production-assets.codepen.io/assets/editor/live/events_runner-73716630c22bbc8cff4bd0f07b135f00a0bdc5d14629260c3ec49e5606f98fdd.js'></script>
@@ -152,7 +150,6 @@
     <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,300' rel='stylesheet' type='text/css'>
     <script src='//production-assets.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js'></script>
     <script src="https://use.typekit.net/hoy3lrg.js"></script>
-    
     
     <script>
         try {
@@ -351,8 +348,8 @@
                 for($i = 0; $i < count($content); $i++) {
                   if ($content[$i]['send_by_me'] == 1) echo 
             '<li class="replies">
-              <img src="' . htmlentities($me['avatar'], ENT_NOQUOTES) . '" />
-              <p >' . htmlentities($content[$i]['content'], ENT_NOQUOTES) . '</p>
+              <img src="' . htmlentities($me['avatar'], ENT_NOQUOTES) . '"/>
+              <p>' . htmlentities($content[$i]['content'], ENT_NOQUOTES) . '</p>
             </li>';
                   else echo
             '<li class="sent">
