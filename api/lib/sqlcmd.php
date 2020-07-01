@@ -176,7 +176,7 @@
     }
 
     function sqlcmd_getMessage(string $user_id, string $target_id) : string {
-        return "SELECT content, case 
+        return "SELECT content, time, case 
                     WHEN (message.sender_id = '$user_id' AND message.receiver_id = '$target_id') THEN TRUE
                     ELSE FALSE
                 END AS send_by_me
