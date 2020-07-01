@@ -7,9 +7,9 @@
   $configs = include($_SERVER['DOCUMENT_ROOT'] . "/api/config/config.php");
   include($_SERVER['DOCUMENT_ROOT'] . "/api/lib/sqlcmd.php");
   $db = mysqli_connect($configs['host'],
-                      $configs['username'],
-                      $configs['password'],
-                      $configs['dbname']);
+                       $configs['username'],
+                       $configs['password'],
+                       $configs['dbname']);
 
   // Database connect failed
   if (!$db) {
@@ -26,7 +26,11 @@
     // Query for the chat target user's information
     $sql_result = $db->query(sqlcmd_getProfile($_GET['user_id']));
     // Query failed
-    if ($sql_result === FALSE) $nickname = FALSE;
+    if ($sql_result === FALSE) {
+      header($_SERVER['SERVER_PROTOCOL'] . " 501");
+      echo "Debugging errno: " . $db->error;
+      exit;
+    }
     // Target user does not exist
     else if ($sql_result->num_rows === 0) {
       echo '<script language="javascript">alert("This user does not exist.")</script>';

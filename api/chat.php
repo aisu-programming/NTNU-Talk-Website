@@ -36,6 +36,114 @@
 
         switch($_POST['action']) {
 
+            case 'getAllChatRoom':
+                $db = mysqli_connect($configs['host'],
+                                     $configs['username'],
+                                     $configs['password'],
+                                     $configs['dbname']);
+
+                // Database connect failed
+                if (!$db) {
+                    header($_SERVER['SERVER_PROTOCOL'] . " 501");
+                    $aResult['error'] = "Debugging errno: " . mysqli_connect_errno();
+                    break;
+                }
+
+                // Query for the chat target user's information
+                $sql_result = $db->query(sqlcmd_getAllChatRoom($_SESSION['user_id']));
+                
+                // Query failed// Query failed
+                if ($sql_result === FALSE) {
+                    header($_SERVER['SERVER_PROTOCOL'] . " 501");
+                    $aResult['error'] = $db->error;
+                }
+                else {
+                    $aResult['chat_rooms'] = array();
+                    while ($row = $sql_result->fetch_assoc()) {
+                        $chat_rooms = array('uid'=>$row['uid'],
+                                            'nickname'=>stringDecode($row['nickname']),
+                                            'avatar'=>$row['avatar'],
+                                            'send_by_me'=>$row['send_by_me'],
+                                            'preview'=>stringDecode($row['preview']));
+                        array_push($aResult['chat_rooms'], json_encode($chat_rooms));
+                    }
+                    header($_SERVER['SERVER_PROTOCOL'] . " 200");
+                    $aResult['result'] = "Succeed!";
+                }
+
+                // Close the connection
+                $db->close();
+                break;
+
+            case 'getMessage':
+                if (is_invalid('target_id')) {
+                    $aResult['error'] = "Missing arguments!";
+                }
+                // Invalid target_id
+                else if (strlen($_POST['target_id']) != 9) {
+                    if ($configs['debug'])
+                        $aResult['error'] = "Invalid target User ID.";
+                }
+                else {
+                    $db = mysqli_connect($configs['host'],
+                                         $configs['username'],
+                                         $configs['password'],
+                                         $configs['dbname']);
+
+                    // Database connect failed
+                    if (!$db) {
+                        header($_SERVER['SERVER_PROTOCOL'] . " 501");
+                        $aResult['error'] = "Debugging errno: " . mysqli_connect_errno();
+                        break;
+                    }
+
+                    // Query for the chat target user's information
+                    $sql_result = $db->query(sqlcmd_getProfile($_POST['target_id']));
+
+                    // Query failed// Query failed
+                    if ($sql_result === FALSE) {
+                        header($_SERVER['SERVER_PROTOCOL'] . " 501");
+                        $aResult['error'] = $db->error;
+                    }
+                    // Target user does not exist
+                    else if ($sql_result->num_rows === 0) {
+                        if ($configs['debug'])
+                            $aResult['error'] = "Target user doesn't exist.";
+                    }
+                    // Bug
+                    else if ($sql_result->num_rows !== 1) {
+                        if ($configs['debug'])
+                            $aResult['error'] = "This is a bug. Please report.";
+                    }
+                    else {
+                        $row = $sql_result->fetch_assoc();
+                        $aResult['nickname'] = $row['nickname'];
+
+                        // Query for the chat content with target user
+                        $sql_result = $db->query(sqlcmd_getMessage($_SESSION['user_id'], $_POST['target_id']));
+                        // Query failed
+                        if ($sql_result === FALSE) {
+                            header($_SERVER['SERVER_PROTOCOL'] . " 501");
+                            $aResult['error'] = "Debugging errno: " . mysqli_connect_errno();
+                        }
+                        else {
+                            $aResult['messages'] = array();
+                            while ($row = $sql_result->fetch_assoc()) {
+                                $message = array('send_by_me'=>$row['send_by_me'],
+                                                 'time'=>$row['time'],
+                                                 'content'=>stringDecode($row['content']));
+                                array_push($aResult['messages'], json_encode($message));
+                            }
+                            header($_SERVER['SERVER_PROTOCOL'] . " 200");
+                            $aResult['result'] = "Succeed!";
+                        }
+                    }
+
+                    // Close the connection
+                    $db->close();
+                }
+                break;
+
             case 'sendMessage':
                 if (is_invalid('target_id') || is_invalid('message')) {
                     $aResult['error'] = "Missing arguments!";
